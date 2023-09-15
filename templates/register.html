@@ -15,6 +15,9 @@
     <div class=" row justify-content-center">
         <div class="col-sm-6 mt-4">
             <h2>Register form</h2>
+            {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+            {% endif %} 
             <form action="/register" method="POST">
                 <div class="form-group">
                 <label for="name">Name:</label>
@@ -29,6 +32,7 @@
                 <div class="form-group">
                 <label for="pwd">Password:</label>
                 <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password">
+                <div id="password-feedback" class="password-feedback"></div>
                 </div>
 
                 <button type="submit" class="btn btn-dark">Submit</button>
@@ -38,6 +42,47 @@
     </div>
   
 </div>
+<script>
+    const passwordInput = document.getElementById('pwd');
+    const passwordFeedback = document.getElementById('password-feedback');
 
+    function updatePasswordFeedback() {
+        const password = passwordInput.value;
+        const complexity = checkPasswordComplexity(password);
+        passwordFeedback.textContent = complexity.message;
+        passwordFeedback.className = `password-feedback ${complexity.className}`;
+    }
+
+    function checkPasswordComplexity(password) {
+        if (password.length < 8) {
+            return { message: 'Password is too short', className: 'weak' };
+        }
+
+        // Check for at least one uppercase letter
+        if (!/[A-Z]/.test(password)) {
+            return { message: 'Include at least one uppercase letter', className: 'medium' };
+        }
+
+        // Check for at least one lowercase letter
+        if (!/[a-z]/.test(password)) {
+            return { message: 'Include at least one lowercase letter', className: 'medium' };
+        }
+
+        // Check for at least one digit (number)
+        if (!/\d/.test(password)) {
+            return { message: 'Include at least one digit', className: 'medium' };
+        }
+
+        // Check for at least one special character (e.g., @$!%*?&)
+        if (!/[@$!%*?&_#]/.test(password)) {
+            return { message: 'Include at least one special character (@$!%*?&_#)', className: 'medium' };
+        }
+
+        // If all checks pass, consider the password strong
+        return { message: 'Password is strong', className: 'strong' };
+    }
+
+    passwordInput.addEventListener('input', updatePasswordFeedback);
+</script>
 </body>
 </html>
