@@ -1,0 +1,15 @@
+body {
+  background-image: url("images/home-bg.jpg");
+}
+
+
+.btn.btn-primary.btn-lg{
+  background-color: #E50914; 
+  border: none;
+  border-radius: 4px;
+}
+
+.btn.btn-primary.btn-lg:hover{
+  background-color: #C11119;
+}
+
