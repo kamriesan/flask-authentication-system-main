@@ -63,7 +63,7 @@ def register():
         existing_user = User.query.filter_by(email=email).first()
 
         if existing_user:
-            return render_template('register.html', error='Email address already exists. Please use a different email instead.')
+            return render_template('register.html', error='Email already exists. Please use a different email instead.')
         
         if len(password) < 8:
             return render_template('register.html', error='Password must be at least 8 characters.')
