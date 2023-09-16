@@ -1,5 +1,12 @@
 body {
   background-image: url("images/home-bg.jpg");
+  background-position: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: black;
+  background-attachment: fixed;
+  text-align: center;
+  
 }
 
 
@@ -13,3 +20,14 @@ body {
   background-color: #C11119;
 }
 
+.d-flex.p-2{
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 10%;
+    border-color: red;
+    border: 4px;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  
+}
