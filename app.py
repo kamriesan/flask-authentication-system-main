@@ -1,13 +1,23 @@
 from flask import Flask, request,render_template, redirect,session, flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
+from flask_mail import Mail
 import bcrypt
-import time
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 app.secret_key = 'secret_key'
+
+# Flask-Mail Configuration
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Gmail SMTP server
+app.config['MAIL_PORT'] = 587 # Port for TLS
+app.config['MAIL_USE_TLS'] = True  # Use TLS (True for Gmail)
+app.config['MAIL_USE_SSL'] = False # Do not use SSL
+app.config['MAIL_USERNAME'] = 'joelflix0917@gmail.com'
+app.config['MAIL_PASSWORD'] = 'your-email-password'
+
+mail = Mail(app)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -23,7 +33,7 @@ class User(db.Model):
     def check_password(self,password):
         return bcrypt.checkpw(password.encode('utf-8'),self.password.encode('utf-8'))
     
-        # Initialize the login attempts session variable
+# Initialize the login attempts session variable
 def initialize_login_attempts():
     if 'login_attempts' not in session:
         session['login_attempts'] = 0
@@ -72,6 +82,8 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    initialize_login_attempts()  # Initialize login attempts here
+    
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
@@ -93,8 +105,10 @@ def login():
             if session['login_attempts'] >= 6:
                 session['login_attempts'] = 0
                 return render_template('locked.html')
+            
+            return render_template('login.html', error='Invalid Username or Password.')
 
-    return render_template('login.html', error='Invalid Username or Password.')
+    return render_template('login.html')
 
 @app.route('/dashboard')
 def dashboard():
