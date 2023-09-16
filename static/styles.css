@@ -14,10 +14,17 @@ body {
   background-color: #E50914; 
   border: none;
   border-radius: 4px;
+  padding-right: 2em;
+  padding-left: 2em;
+  font-size: 1.2em;
+  text-align: center;
+  white-space: nowrap; 
+
 }
 
 .btn.btn-primary.btn-lg:hover{
   background-color: #C11119;
+
 }
 
 .d-flex.p-2{
@@ -30,4 +37,13 @@ body {
     align-items: center;
     color: white;
   
+}
+
+a {
+  color: white;
+  text-decoration: none;  
+}
+
+a:hover{
+  color: grey;
 }
