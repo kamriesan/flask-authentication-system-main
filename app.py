@@ -1,7 +1,9 @@
-from flask import Flask, request,render_template, redirect,session, flash
+from flask import Flask,request,render_template,redirect,session,flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
-from flask_mail import Mail
+from flask_mail import Mail, Message
+from flask import url_for
+from auth_utils import generate_unique_token, verify_reset_token, update_password  # Import functions from auth_utils
 import bcrypt
 
 app = Flask(__name__)
@@ -18,7 +20,7 @@ app.config['MAIL_PORT'] = 587 # Port for TLS
 app.config['MAIL_USE_TLS'] = True  # Use TLS (True for Gmail)
 app.config['MAIL_USE_SSL'] = False # Do not use SSL
 app.config['MAIL_USERNAME'] = 'joelflix0917@gmail.com'
-app.config['MAIL_PASSWORD'] = 'your-email-password'
+app.config['MAIL_PASSWORD'] = 'brzfqmhwvyhccuat'
 
 mail = Mail(app)
 
@@ -107,11 +109,15 @@ def login():
             
             if session['login_attempts'] >= 6:
                 session['login_attempts'] = 0
+                msg = Message('Account Locked', sender='joelflix0917@gmail.com', recipients=[user.email])  
+                msg.html = render_template('locked_email.html', name=user.name)
+                mail.send(msg)
                 return render_template('locked.html')
             
             return render_template('login.html', error='Invalid Username or Password.')
 
     return render_template('login.html')
+
 
 @app.route('/dashboard')
 def dashboard():
