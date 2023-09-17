@@ -13,6 +13,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 app.secret_key = 'secret_key'
+app.static_url_path = '/static'
+
+
 
 # Flask-Mail Configuration
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Gmail SMTP server

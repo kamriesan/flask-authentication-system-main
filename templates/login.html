@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Login page</title>
+    <title>Joelflix | Login</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="static/styles.css" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
@@ -13,40 +14,77 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
   </head>
   <body>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-sm-6 mt-4">
-          <h2>Login form</h2>
-          {% if error %}
-          <div class="alert alert-danger">{{ error | safe }}</div>
-          {% endif %} 
-          <form action="/login" method="POST">
-            <div class="form-group">
-              <label for="email">Email:</label>
-              <input
-                type="email"
-                class="form-control"
-                id="email"
-                placeholder="Enter email"
-                name="email"
-              />
+    <section class="h-100">
+      <div class="container h-100">
+        <div class="row justify-content-sm-center h-100">
+          <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
+            <div class="text-center my-5">
+              <img src="static\images\logo.png" alt="logo" width="100" />
             </div>
-            <div class="form-group">
-              <label for="pwd">Password:</label>
-              <input
-                type="password"
-                class="form-control"
-                id="pwd"
-                placeholder="Enter password"
-                name="password"
-              />
+            <div class="card-body p-5">
+              <h2 class="fs-4 card-title fw-bold mb-4">Login</h2>
+              {% if error %}
+              <div class="alert alert-danger">{{ error | safe }}</div>
+              {% endif %}
+              <form
+                method="POST"
+                class="needs-validation"
+                novalidate=""
+                autocomplete="off"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+                  <symbol id="exclamation-triangle-fill" viewBox="0 0 16 16">
+                    <path
+                      d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+                    />
+                  </symbol>
+                </svg>
+
+                <div class="mb-3">
+                  <form action="/login" method="POST">
+                    <div class="form-group">
+                      <label for="email">Email</label>
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        placeholder="Enter email"
+                        name="email"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="pwd">Password</label>
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="pwd"
+                        placeholder="Enter password"
+                        name="password"
+                      />
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg full">
+                      Login
+                    </button>
+                  </form>
+                </div>
+              </form>
             </div>
+<<<<<<< HEAD
             <button type="submit" class="btn btn-dark">Submit</button>
             <a href="/register" class="btn btn-primary">Register</a>
             <a href="/forgot_password">Forgot password?</a>
           </form>
+=======
+            <div class="card-footer py-3 border-0">
+              <div class="text-center">
+                New to Joelflix?
+                <b><a href="/register"> Register </a></b>now!
+              </div>
+            </div>
+          </div>
+>>>>>>> 298815a0762e9c382eb9b228bb801806b6d53415
         </div>
       </div>
-    </div>
+    </section>
   </body>
 </html>

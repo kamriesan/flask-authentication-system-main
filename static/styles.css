@@ -1,0 +1,169 @@
+body {
+  background-image: url("images/home-bg.jpg");
+  background-position: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: black;  
+  color: white;
+  text-decoration: none;
+  
+}
+
+
+
+
+.btn.btn-primary.btn-lg{
+  background-color: #E50914; 
+  border: none;
+  border-radius: 4px;
+  padding-right: 2em;
+  padding-left: 2em;
+  font-size: 1.2em;
+  text-align: center;
+  white-space: nowrap; 
+
+
+}
+
+.btn.btn-primary.btn-lg:hover{
+  background-color: #C11119;
+
+}
+
+.p-2{
+  color: white;
+}
+
+.d-flex.p-2{
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 10%;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  
+}
+
+a {
+  color: white;
+  text-decoration: none;  
+}
+
+a:hover{
+  color: grey;
+}
+
+h2{
+  color: white;
+  text-decoration: none;  
+}
+
+.card-body.p-5{
+  background-color: rgba(0, 0, 0, 0.7 );
+  height: 80%;  
+}
+
+.center-index-div{
+  text-align: center;
+}
+
+.fs-4.card-title.fw-bold.mb-4{
+  color: white;
+  font-size: 32px;
+}
+
+.alert.alert-danger{
+  color:white;
+  border-color: #C11119;
+  background-color: transparent;
+}
+
+/** Button in register and login**/
+.full{
+  width: fit-content;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.btn:focus,
+.btn:active,
+.btn:hover{
+  border-color:#C11119;
+}
+
+.bi {
+  fill: white;
+  width: 20px;
+  height: 20px;
+}
+
+.alert.alert-danger div {
+  font-size: 14px; 
+  padding-left: 15px;
+}
+
+
+.card-footer a {
+  color: white;
+  text-decoration: none;
+}
+
+.card-footer a:hover {
+  color: grey;
+  text-decoration: none;
+}
+
+.fs-4.card-title {
+  font-size: 1px; 
+}
+
+label[for="name"],
+label[for="email"],
+label[for="pwd"] {
+  font-size: 12px; 
+  color: white;
+}
+
+#password-feedback {
+  font-size: 10px;
+}
+
+.text-center{ 
+  color: white;
+}
+
+.user-dashboard-bg {
+  background-image: url('images/Dashboard-bgcover.jpg'); 
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+
+}
+
+/**dashboard**/
+.logo {
+  position: absolute;
+  top: 50px;
+  left: 70px;
+}
+
+.logo img {
+  width: 150px; /* Adjust the width as needed */
+  height: auto;
+}
+
+.dashboard-row{
+  padding-left: 70px;
+  padding-top: 200px;
+
+}
+
+h1{
+  color: white;
+}
+
+h4{
+  color: white;
+  padding-left: 70px;
+}
