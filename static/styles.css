@@ -225,3 +225,9 @@ li:hover{
 li a:hover:not(.active) {
   background-color: transparent;
 }
+
+.col1{
+  width: 50%;
+  color: white;
+  font-size: 18px;
+}
