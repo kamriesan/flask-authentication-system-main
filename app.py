@@ -2,13 +2,16 @@ from flask import Flask,request,render_template,redirect,session,flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
 from flask_mail import Mail, Message
+from flask_migrate import Migrate
 from flask import url_for
-from auth_utils import generate_unique_token, verify_reset_token, update_password  # Import functions from auth_utils
 import bcrypt
+import secrets
+import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 app.secret_key = 'secret_key'
 
 # Flask-Mail Configuration
@@ -34,7 +37,26 @@ class User(db.Model):
     
     def check_password(self,password):
         return bcrypt.checkpw(password.encode('utf-8'),self.password.encode('utf-8'))
-    
+
+class ResetTokenModel(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    token = db.Column(db.String(128), unique=True, nullable=False)
+    expiration_time = db.Column(db.DateTime, nullable=False)
+
+def generate_unique_token():
+    return secrets.token_urlsafe(32)
+
+def verify_reset_token(token):
+    # Query the database for the reset token
+    reset_token = ResetTokenModel.query.filter_by(token=token).first()
+
+    if reset_token:
+        # Check if the token has not expired
+        if reset_token.expiration_time > datetime.datetime.now():
+            return True
+
+    return False 
+
 # Initialize the login attempts session variable
 def initialize_login_attempts():
     if 'login_attempts' not in session:
@@ -114,6 +136,62 @@ def login():
             return render_template('login.html', error='Invalid Username or Password.')
 
     return render_template('login.html')
+
+@app.route('/forgot_password', methods=['GET', 'POST'])
+def forgot_password():
+    if request.method == 'POST':
+        email = request.form['email']
+        session['email'] = email
+        # Check if the email exists in the database
+        user = User.query.filter_by(email=email).first()
+        if user:
+            # Generate a unique reset token
+            reset_token = generate_unique_token()
+            # Set the expiration time (e.g., 24 hours from now)
+            expiration_time = datetime.datetime.now() + datetime.timedelta(hours=24)
+            # Create a ResetTokenModel object and store it in the database
+            reset_token_obj = ResetTokenModel(token=reset_token, expiration_time=expiration_time)
+            db.session.add(reset_token_obj)
+            db.session.commit()
+            # Send an email to the user with a link to reset their password
+            reset_link = url_for('reset_password', token=reset_token, _external=True)
+            msg = Message('Password Reset', sender='joelflix0917@gmail.com', recipients=[user.email])
+            msg.html = render_template('reset_email.html', reset_link=reset_link, name=user.name)
+            mail.send(msg)
+            return render_template('forgot_password.html',error='An email with instructions to reset your password has been sent.')
+        else:
+            return render_template('forgot_password.html',error='No user with that email address exists.')
+    return render_template('forgot_password.html')
+
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    if request.method == 'POST':
+        new_password = request.form['new_password']
+        confirm_password = request.form['confirm_password']
+        # Verify the reset token
+        if verify_reset_token(token) and new_password == confirm_password:
+            user = User.query.filter_by(email=session['email']).first()  # Retrieve the user based on their email or any other identifier
+            
+            if user:
+                user.password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+                db.session.commit()  # Commit the changes to the database
+                flash('Your password has been reset successfully. You can now log in with your new password.', 'success')
+                return redirect('/login')
+
+        # user = verify_reset_token(token)
+        # if user:
+        #     # Check if the new password and confirmation match
+        #     if new_password == confirm_password:
+        #         # Update the user's password
+        #         update_password(user, new_password)
+        #         flash('Your password has been reset successfully. You can now log in with your new password.', 'success')
+        #         return redirect('/login')
+
+            else:
+                flash('Passwords do not match.', 'danger')
+        else:
+            flash('Invalid or expired reset token.', 'danger')
+    return render_template('reset_password.html', token=token)
 
 
 @app.route('/dashboard')

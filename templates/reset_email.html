@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <img src="https://iili.io/JHOexMN.png" alt="joelflix logo">
+    <p>Hi {{ name }},</p>
+    <p>Tap the button to reset your account password.</p>
+    <p>If you didn't request a new password, you can safely delete this email.</p>
+    <a href="{{ reset_link }}">Reset Password</a>
+    <p>If that doesn't work, copy and paste the following link in your browser:</p>
+    <a href="{{ reset_link }}">{{ reset_link }}</a>
+    <p>-The Joelflix Team</p>
+</body>
+</html>
