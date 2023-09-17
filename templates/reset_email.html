@@ -1,13 +1,43 @@
 <!DOCTYPE html>
 <html>
-<body>
-    <img src="https://iili.io/JHOexMN.png" alt="joelflix logo">
-    <p>Hi {{ name }},</p>
-    <p>Tap the button to reset your account password.</p>
-    <p>If you didn't request a new password, you can safely delete this email.</p>
-    <a href="{{ reset_link }}">Reset Password</a>
-    <p>If that doesn't work, copy and paste the following link in your browser:</p>
-    <a href="{{ reset_link }}">{{ reset_link }}</a>
-    <p>-The Joelflix Team</p>
-</body>
+    <head>
+        <style>
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+            .btn {
+                padding: 15px 40px;
+                background: #db202c;
+                color: white;
+                font-weight: bold;
+                margin: 40px 0;
+                text-decoration: none;
+            }
+            .message {
+                margin: 30px 0 40px 0;
+            }
+            .name {
+                font-weight: bold;
+            }
+            .team {
+                color: #db202c;
+            }
+            .reset {
+                margin: 50px 0;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <img src="https://iili.io/JHOexMN.png" alt="joelflix logo">
+        <p>Hi <span class="name">{{ name }}</span>,</p>
+        <div class="message">
+            <p>Tap the button to reset your account password.</p>
+            <p>If you didn't request a new password, you can safely delete this email.</p> 
+            <div class="reset"><a href="{{ reset_link }}" class="btn">Reset Password</a></div>
+            <p>If that doesn't work, copy and paste the following link in your browser:</p>
+            <a href="{{ reset_link }}">{{ reset_link }}</a>
+        </div>
+        <p class="team">-The Joelflix Team</p>
+    </body>
 </html>

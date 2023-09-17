@@ -179,3 +179,23 @@ h4{
 .login-btn {
   margin-bottom: 10px;
 }
+
+/**forgot password**/
+.description {
+  color: white;
+  margin-top: -10px;
+}
+
+.email-input {
+  margin-top: 2vw;
+}
+
+.check {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 20px;
+}
+
+.center {
+  text-align: center;
+}

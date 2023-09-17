@@ -15,8 +15,6 @@ migrate = Migrate(app, db)
 app.secret_key = 'secret_key'
 app.static_url_path = '/static'
 
-
-
 # Flask-Mail Configuration
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Gmail SMTP server
 app.config['MAIL_PORT'] = 587 # Port for TLS
@@ -131,8 +129,18 @@ def login():
             
             if session['login_attempts'] >= 6:
                 session['login_attempts'] = 0
+                # Generate a unique reset token
+                reset_token = generate_unique_token()
+                # Set the expiration time (e.g., 24 hours from now)
+                expiration_time = datetime.datetime.now() + datetime.timedelta(hours=24)
+                # Create a ResetTokenModel object and store it in the database
+                reset_token_obj = ResetTokenModel(token=reset_token, expiration_time=expiration_time)
+                db.session.add(reset_token_obj)
+                db.session.commit()
+                # Send an email to the user with a link to reset their password
+                reset_link = url_for('reset_password', token=reset_token, _external=True)
                 msg = Message('Account Locked', sender='joelflix0917@gmail.com', recipients=[user.email])  
-                msg.html = render_template('locked_email.html', name=user.name)
+                msg.html = render_template('locked_email.html', reset_link=reset_link, name=user.name)
                 mail.send(msg)
                 return render_template('locked.html')
             
@@ -143,8 +151,12 @@ def login():
 @app.route('/forgot_password', methods=['GET', 'POST'])
 def forgot_password():
     if request.method == 'POST':
-        email = request.form['email']
+        email = request.form['email'].strip()  # Remove leading/trailing whitespace
         session['email'] = email
+
+        if not email:
+            return render_template('forgot_password.html', error='Please enter your email address.')
+    
         # Check if the email exists in the database
         user = User.query.filter_by(email=email).first()
         if user:
@@ -161,7 +173,7 @@ def forgot_password():
             msg = Message('Password Reset', sender='joelflix0917@gmail.com', recipients=[user.email])
             msg.html = render_template('reset_email.html', reset_link=reset_link, name=user.name)
             mail.send(msg)
-            return render_template('forgot_password.html',error='An email with instructions to reset your password has been sent.')
+            return render_template('email_sent.html')
         else:
             return render_template('forgot_password.html',error='No user with that email address exists.')
     return render_template('forgot_password.html')
@@ -178,22 +190,12 @@ def reset_password(token):
             if user:
                 user.password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
                 db.session.commit()  # Commit the changes to the database
-                flash('Your password has been reset successfully. You can now log in with your new password.', 'success')
                 return redirect('/login')
 
-        # user = verify_reset_token(token)
-        # if user:
-        #     # Check if the new password and confirmation match
-        #     if new_password == confirm_password:
-        #         # Update the user's password
-        #         update_password(user, new_password)
-        #         flash('Your password has been reset successfully. You can now log in with your new password.', 'success')
-        #         return redirect('/login')
-
             else:
-                flash('Passwords do not match.', 'danger')
+                return render_template('reset_password.html', error='Passwords do not match.')
         else:
-            flash('Invalid or expired reset token.', 'danger')
+            return render_template('reset_password.html', error='Invalid or expired reset token.')
     return render_template('reset_password.html', token=token)
 
 
