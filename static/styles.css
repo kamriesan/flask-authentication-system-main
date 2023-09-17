@@ -5,7 +5,7 @@ body {
   background-repeat: no-repeat;
   background-color: black;  
   text-align: center;
-   ar
+
   
 }
 
@@ -27,6 +27,10 @@ body {
 
 }
 
+.p-2{
+  color: white;
+}
+
 .d-flex.p-2{
     margin-left: 25%;
     margin-right: 25%;
@@ -44,4 +48,8 @@ a {
 
 a:hover{
   color: grey;
+}
+
+h2{
+  color: white;
 }
