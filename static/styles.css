@@ -126,6 +126,7 @@ label[for="pwd"] {
 
 #password-feedback {
   font-size: 10px;
+  color:#C11119;
 }
 
 .text-center{ 
@@ -184,3 +185,43 @@ p{
   color: white;
 }
 
+img:hover {
+  opacity: 0.7;
+}
+
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding-right: 100px;
+  overflow: hidden;
+  background-color: transparent;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+li {
+  float: right;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 30px;
+  text-decoration: none;
+}
+
+li a:hover{
+  text-decoration: none;
+  color: grey;
+}
+
+li:hover{
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: transparent;
+}
