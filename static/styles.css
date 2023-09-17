@@ -137,8 +137,15 @@ label[for="pwd"] {
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
+}
 
+.forgot-password {
+  color: white;
+  text-decoration: underline;
+}
 
+.forgot-password:hover {
+  color: #e50914;
 }
 
 /**dashboard**/
@@ -166,4 +173,9 @@ h1{
 h4{
   color: white;
   padding-left: 70px;
+}
+
+/**login**/
+.login-btn {
+  margin-bottom: 10px;
 }
