@@ -120,7 +120,8 @@ def login():
             session['login_attempts'] = 0  # Reset login attempts on successful login
             return redirect('/dashboard')
         elif user is None:
-            return render_template('login.html', error='User not found. Please <a href="/register">register</a>.')
+            return render_template('login.html', error='User not found. Please <a href="/register" class="register-link">register</a>.')
+
         else:
             session['login_attempts'] += 1  # Increment login attempts
 
